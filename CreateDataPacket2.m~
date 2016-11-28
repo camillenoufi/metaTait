@@ -1,0 +1,48 @@
+function [ imagePacket ] = CreateDataPacket2( im_array, led_names )
+%CreateDataPacket reads in the downsampled image matrix and creates a
+%   datapacket by formatting the matrix information in a way the MCU will be
+%   able to understand
+%
+% Input:  image_array: a 4D WxHx3x#_of_images matrix holding the image data
+% Output: dataPacket:  
+
+% get metadata of matrix
+width = size(im_array,1);
+height = size(im_array,2);
+rgbDim = size(im_array,3);
+numImages = size(im_array,4);
+numLEDsPerPost = size(led_names,2)
+% imageHeader = [height width];
+
+sectionLength = width/numLEDsPerPost;            
+
+% for loop:  for each image, depending on Ln value, extract that section of
+% each image, and order based on time t0-t17
+
+for i = 1:numLEDsPerPost
+    
+
+
+
+
+
+
+
+
+
+
+imagePacket = imageHeader;
+
+%create RGB content vectors for each cross section
+for i = 1:width
+    rData(1:height) = transpose(image_matrix(:,i,1));
+    gData(1:height) = transpose(image_matrix(:,i,2));
+    bData(1:height) = transpose(image_matrix(:,i,3));
+    imagePacket = horzcat(imagePacket,rData,gData,bData);
+    
+end
+
+end
+
+
+
