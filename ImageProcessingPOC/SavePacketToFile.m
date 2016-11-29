@@ -1,4 +1,4 @@
-function [ boolSuccess ] = SavePacketToFile( packet )
+function [ ] = SavePacketToFile( packetLine )
 %SavePacketToFile saves a data packet to an output file on the datapath
 %
 % Inputs: packet:  
@@ -6,9 +6,10 @@ function [ boolSuccess ] = SavePacketToFile( packet )
 %                     save was successful or (0) if they it was not
 
 fileID = fopen('datapacket.txt','a+');
-fprintf(fileID,'%02x,',packet);             %saves comma deliminated text file to datapacket.txt
+fprintf(fileID,'%02x,',packetLine);             %saves comma deliminated text file to datapacket.txt
 fprintf(fileID,'\n');
 fclose(fileID);
+
 
 end
 

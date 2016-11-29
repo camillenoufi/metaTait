@@ -1,4 +1,4 @@
-function [ dataPacket ] = CreateDataPacket2( im_array, led_num )
+function [ dataPacket, sectionLength, height ] = CreateDataPacket2( im_array, led_num )
 %CreateDataPacket reads in the downsampled image matrix and creates a
 %   datapacket by formatting the matrix information in a way the MCU will be
 %   able to understand
@@ -18,12 +18,9 @@ sectionLength = width/numLEDsPerPost;
 %sectionData = zeros(height*sectionLength,1,rgbDim);    %preallocate for
 %speed?
 sectionData = [-1; -1];
-dataPacket = zeros(1,numImages*height*sectionLength*rgbDim + size(sectionData,1));
-% L2Packet = zeros(1,numImages*height*sectionLength*rgbDim);
-% L3Packet = zeros(1,numImages*height*sectionLength*rgbDim);
-% L4Packet = zeros(1,numImages*height*sectionLength*rgbDim);
-% L5Packet = zeros(1,numImages*height*sectionLength*rgbDim);
-% L6Packet = zeros(1,numImages*height*sectionLength*rgbDim);
+headerSize = size(sectionData,1);
+dataPacket = zeros(1,numImages*height*sectionLength*rgbDim + headerSize);
+
 
 % for loop:  for each image, depending on Ln value, extract that section of
 % each image, and order based on time t0-t17
@@ -46,12 +43,14 @@ for n = 1:numLEDsPerPost    %iterate through image based on number of LEDs per p
     end
     
     sectionData = transpose(sectionData);
-    dataPacket = vertcat(dataPacket,sectionData);
+    dataPacket = vertcat(dataPacket,sectionData);   %concatenate Ln row onto output packet L1-L6
     
-    %assign to specific LED packet # - if statement
-    
-    sectionData = [-1 -1];
+    sectionData = [-1; -1]; %reset section Data
    
+
+end
+
+dataPacket = dataPacket(2:end,headerSize+1:end);
 
 end
 

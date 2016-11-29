@@ -10,9 +10,9 @@ originalImage = imread(strcat(image_folder,'/',image_file));
 % downsample image and create 3D matrix and display downsampled image
 downsampledImageMatrix = DownsampleImage(originalImage,resolution_height, resolution_width);
 
-% figure
-% imshow(downsampledImageMatrix)
-% title('Adjusted and Downsampled')
+figure
+imshow(downsampledImageMatrix)
+title('Adjusted and Downsampled')
 
 end
 
