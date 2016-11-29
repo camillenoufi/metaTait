@@ -31,9 +31,9 @@ dataPacket = zeros(1,numImages*height*sectionLength*rgbDim + size(sectionData,1)
 for n = 1:numLEDsPerPost    %iterate through image based on number of LEDs per post, creates "sections"
     currentLEDStrip = led_num(n,:);    %used for debugging
     startingColumn = ((n-1)*sectionLength) + 1;
-    startingImage = numImages + (n-1);
-    endingImage = 1 + (n-1);
-    for i = startingImage : -1 : endingImage          %iterate backwards through image
+    startingImage = numImages - (n-1);
+    endingImage = 1 - (n-1);
+    for i = startingImage : -1 : endingImage)          %iterate backwards through image
         currentImage = mod(i,numImages);
         if currentImage == 0
             currentImage = numImages;

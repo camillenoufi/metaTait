@@ -1,14 +1,14 @@
 function [] = ReadImageZip(image_folder,height,width)
 
 imageStruct = dir(image_folder);
-imageStruct = imageStruct(4:end);
+imageStruct = imageStruct(3:end);
 structLength = size(imageStruct,1);
 
 fileID = fopen('datapacket.txt','w');
 fclose(fileID);
 
-Ln = ['L1' 'L2' 'L3' 'L4' 'L5' 'L6'];   %array representing LEDs on each post
-Pn = ['a' 'b' 'c'];   %array representing post names
+Ln = ['L1'; 'L2'; 'L3'; 'L4'; 'L5'; 'L6'];   %array representing LEDs on each post
+Pn = ['a'; 'b'; 'c'];   %array representing post names
 imageArray = zeros(height,width,3,structLength);
 
 for i=1:structLength
