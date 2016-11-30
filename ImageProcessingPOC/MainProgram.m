@@ -1,11 +1,17 @@
 function [] = MainProgram(image_folder,height,width)
 
-imageStruct = dir(image_folder);
-
-if imageStruct(1).name == '.DS_Store'           % remove struct file headers
-    imageStruct = imageStruct(4:end);
-else imageStruct = imageStruct(4:end);
+%check width mod(6)
+if mod(width,6) ~= 0
+    errordlg('Width must be divisible by number of LEDs per post!');
 end
+
+imageStruct = dir(image_folder);
+ 
+% if imageStruct(1).name == '.DS_Store'           % remove struct file headers
+%     imageStruct = imageStruct(4:end);
+% else
+imageStruct = imageStruct(3:end);
+
 
 structLength = size(imageStruct,1);
 
@@ -16,10 +22,16 @@ ledNames = ['L1'; 'L2'; 'L3'; 'L4'; 'L5'; 'L6'];   %array representing LEDs on e
 postNames = ['a'; 'b'; 'c'];                        %array representing post names
 
 imageArray = zeros(height,width,3,structLength);
+figure
 
 for i=1:structLength
     %deal with beginning of folder being non-images.....?
     imageArray(:,:,:,i) = CreateImageMatrix(image_folder,imageStruct(i).name,height,width);
+    downsampledImageMatrix = uint8(imageArray(:,:,:,i));
+    subplot(6,3,i);
+    imshow(downsampledImageMatrix)
+    title(['V.A ' num2str(i) ' Adjusted/Downsampled'])
+
 end
 
 % convert 3D matrix into serial data packets
@@ -31,28 +43,6 @@ end
 
 % read data packet, construct timing images, and display post "image"
 ConstructPostImages(dataPacket,structLength, sectionLength, height);
-
-% figure
-% imshow(reconstructedImageMatrix)
-% title('Reconstructed Matrix')
-
-
-% compare reconstructed and original downsampled matrix to confirm match
-% boolMatch = CompareMatrices(reconstructedImageMatrix, downsampledImageMatrix);
-
-% if match, save to file, else print error message
-% if boolMatch
-%     Disp('matrices match, saving image data to file...');
-
-%         outputMessage = 'data saved';
-%     else outputMessage = 'save failed';
-%     end    
-% else 
-%     Disp('matrices do not match');
-% end
-
-
-
 
 
 fileID = fopen('datapacket.txt','a+');
