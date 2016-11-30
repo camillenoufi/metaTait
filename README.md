@@ -12,13 +12,15 @@ IMAGE PROCESSING POC:
 
 3) Set desired resolution (based on cage parameters or debugging preferences).  Width must be a multiple of LEDs/Post.  
 
-  >> >> height = desired_height_number;
-  >> >> width = desired_width_number;
+  >> height = desired_height_number;
+  
+  >> width = desired_width_number;
 
 4) Run program in the Matlab command window with either of the following commands:
 
-  >> >> MainProgram('ImagesFolderColors', height, width)              OR
+  >> >> MainProgram('ImagesFolderColors', height, width)              
   
+  OR
   
   >> >> MainProgram('ImagesFolderNumbers', height, width)
   
