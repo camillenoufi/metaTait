@@ -1,4 +1,4 @@
-function [ postImagesArray ] = ConstructPostImages(data_packet,num_images, column_num, height)
+function [ postImagesArray ] = CalcDiscreteTimePostData(data_packet,num_images, column_num, height)
 
 numLEDs = size(data_packet,1);
 rgbDim = 3;
