@@ -41,9 +41,10 @@ for i = 1:size(dataPacket,1)
     SavePacketToFile(dataPacket(i,:))
 end
 
+t = cputime;
 % read data packet, construct timing images, and display post "image"
-ConstructPostImages(dataPacket,structLength, sectionLength, height);
-
+CalcDiscreteTimePostData(dataPacket,structLength, sectionLength, height);
+msResult = cputime-t;
 
 fileID = fopen('datapacket.txt','a+');
 fprintf(fileID,'EOF');
