@@ -1,4 +1,4 @@
-#include "F28x_Project.h"
+/*#include "F28x_Project.h"
 
 //
 // Defines
@@ -212,7 +212,7 @@ void I2CA_Init(void)
 	    * Led Packet Structure:
 	    * 32 bits of 0's is the start packet
 	    * 3 bits of ones, 5 bits for global brightness, then one byte each for color content (RGB)
- */
+
 
 void spi_xmita(Uint16 a)		//Transmit via SPIA
 {
@@ -545,5 +545,5 @@ __interrupt void local_D_INTCH2_ISR(void)
 
    return;
 }
-
+*/
 
