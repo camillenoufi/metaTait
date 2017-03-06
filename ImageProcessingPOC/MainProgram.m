@@ -1,30 +1,29 @@
-function [] = MainProgram(image_folder,height,width)
+function [dataStream] = MainProgram(image_folder,height,width,numImages)
+
+% Assumptions:   Number of images is a multiple of the number of LED strips
+%
+
 
 %check width mod(6)
 if mod(width,6) ~= 0
     errordlg('Width must be divisible by number of LEDs per post!');
 end
 
-imageStruct = dir(image_folder);
- 
-% if imageStruct(1).name == '.DS_Store'           % remove struct file headers
-%     imageStruct = imageStruct(4:end);
-% else
-imageStruct = imageStruct(3:end);
+imageStruct = importImages(image_folder,numImages);
 
-
-structLength = size(imageStruct,1);
-
-fileID = fopen('datapacket.txt','w');   %clear datapacket file to be overwritten
+fileID = fopen('datapacket.txt','w');   %clear data stream file to be overwritten
+fileID2 = fopen('binarypacket.bin','w'); %clear data stream file to be overwritten
 fclose(fileID);
+fclose(fileID2);
 
 ledNames = ['L1'; 'L2'; 'L3'; 'L4'; 'L5'; 'L6'];   %array representing LEDs on each post
-postNames = ['a'; 'b'; 'c'];                        %array representing post names
+posts = ['a'; 'b'; 'c'];                        %array representing post names
 
-imageArray = zeros(height,width,3,structLength);
+imageArray = zeros(height,width,3,numImages);
+
 figure
 
-for i=1:structLength
+for i=1:numImages
     %deal with beginning of folder being non-images.....?
     imageArray(:,:,:,i) = CreateImageMatrix(image_folder,imageStruct(i).name,height,width);
     downsampledImageMatrix = uint8(imageArray(:,:,:,i));
@@ -35,19 +34,19 @@ for i=1:structLength
 end
 
 % convert 3D matrix into serial data packets
-[ dataPacket, sectionLength, height ] = CreateDataPacket2(imageArray, ledNames);
+[ dataMatrix, sectionLength, height ] = CreateDataPacket2(imageArray, ledNames);
 
-for i = 1:size(dataPacket,1)
-    SavePacketToFile(dataPacket(i,:))
-end
+[dataStream] = CreateDataStream(dataMatrix,height,width,size(posts,1));
 
-t = cputime;
-% read data packet, construct timing images, and display post "image"
-CalcDiscreteTimePostData(dataPacket,structLength, sectionLength, height);
-msResult = cputime-t;
-
+SavePacketToFile(dataStream)
 fileID = fopen('datapacket.txt','a+');
 fprintf(fileID,'EOF');
 fclose(fileID);
+
+fileData = fopen('binarypacket.bin');
+uint8DataStream = fread(fileData);
+
+% read data packet, construct timing simulation
+DiscreteTimeReconstruction(uint8DataStream, height, width);
     
 end

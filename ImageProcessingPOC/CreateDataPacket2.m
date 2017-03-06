@@ -4,7 +4,8 @@ function [ dataPacket, sectionLength, height ] = CreateDataPacket2( im_array, le
 %   able to understand
 %
 % Input:  image_array: a 4D WxHx3x#_of_images matrix holding the image data
-% Output: dataPacket:  
+% Output: dataPacket:  6 lines, organized by bgr->column->section->image
+%                       per line
 
 % get metadata of matrix
 height = size(im_array,1);
@@ -25,19 +26,21 @@ dataPacket = zeros(1,numImages*height*sectionLength*rgbDim + headerSize);
 % for loop:  for each image, depending on Ln value, extract that section of
 % each image, and order based on time t0-t17
 
-for n = 1:numLEDsPerPost    %iterate through image based on number of LEDs per post, creates "sections"
-    currentLEDStrip = led_num(n,:);    %used for debugging
-    startingColumn = ((n-1)*sectionLength) + 1;
-    startingImage = numImages + (n-1);
-    endingImage = 1 + (n-1);
-    for i = startingImage : -1 : endingImage          %iterate backwards through image
-        currentImage = mod(i,numImages);
-        if currentImage == 0
+for n = 1:numLEDsPerPost                            %iterate through image based on number of LEDs per post, creates "sections"
+    currentLEDStrip = led_num(n,:);                 %used for debugging
+    startingColumn = ((n-1)*sectionLength) + 1;     %connect starting column to LED strip
+    startingImage = n;                              %LED strip's 1st image is offset
+    endingImage = startingImage+(numImages-1);
+    for i = startingImage:endingImage        %iterate forward through image set
+        currentImage = mod(i,numImages);     %index through numImages-sized loop
+        if currentImage == 0                 %if on last image x, account for mod(x,x)=0
             currentImage = numImages;
         end    
-        for j = 1:sectionLength      %iterate forwards through columns            
-            for k = 1:rgbDim
-                sectionData = vertcat(sectionData,im_array(:, startingColumn + (j-1), k, currentImage)); 
+        for j = 1:sectionLength             %iterate forwards through columns
+            for l = height:-1:1
+                for k = rgbDim:-1:1     %LED strips read in B,G,R
+                    sectionData = vertcat(sectionData,im_array(l, startingColumn + (j-1), k, currentImage)); 
+                end
             end
         end
     end
@@ -51,7 +54,6 @@ for n = 1:numLEDsPerPost    %iterate through image based on number of LEDs per p
 end
 
 dataPacket = dataPacket(2:end,headerSize+1:end);
-
 end
 
 
