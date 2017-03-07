@@ -31,6 +31,11 @@
 			<locationURI>INSTALLROOT_F2837XS1/F2837xS_common/source/F2837xS_CodeStartBranch.asm</locationURI>
 		</link>
 		<link>
+			<name>F2837xS_CpuTimers.c</name>
+			<type>1</type>
+			<locationURI>INSTALLROOT_F2837XS1/F2837xS_common/source/F2837xS_CpuTimers.c</locationURI>
+		</link>
+		<link>
 			<name>F2837xS_DefaultISR.c</name>
 			<type>1</type>
 			<locationURI>INSTALLROOT_F2837XS1/F2837xS_common/source/F2837xS_DefaultISR.c</locationURI>
@@ -76,7 +81,7 @@
 			<locationURI>INSTALLROOT_F2837XS1/F2837xS_common/source/F2837xS_usDelay.asm</locationURI>
 		</link>
 		<link>
-			<name>LEDControl.c</name>
+			<name>OLD_LEDControl.c</name>
 			<type>1</type>
 			<locationURI>INSTALLROOT_F2837XS1/F2837xS_examples_Cpu1/spi_loopback/cpu01/Example_2837xSSpi_FFDLB.c</locationURI>
 		</link>
