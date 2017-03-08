@@ -1,4 +1,4 @@
-function [  ] = DiscreteTimeReconstruction( data_stream,image_height, image_width )
+function [  ] = DiscreteTimeReconstruction( binary_file,image_height, image_width )
 %%%% reconstruct images from data packet in a similar fashion to how the
 %%%% microcontroller will read the packet during one rotation of the cage.
 
@@ -10,13 +10,16 @@ function [  ] = DiscreteTimeReconstruction( data_stream,image_height, image_widt
 %%%%      and Row Index
 
 
+fileData = fopen(binary_file);
+data_stream = fread(fileData);
+
 %set up data parameters
 streamLength = size(data_stream,1);
 chunkSize = 3;
 rgbDim = 3;
 imageHeight = image_height*rgbDim;
 
-byte = 1;        %in C/MCU code, byte incrememnts have to be +/- 8 instead of 1
+byte = 1;        %in C/MCU code, byte incrememnts have to be +/- 8 instead of 1?
 numImages = 18;
 stripsPerPort = 2;
 totalStrips = 6;
@@ -28,7 +31,7 @@ updateLength = streamLength/updates;   %also = height*numStrips
 columnLength = updates/numImages;      %also = imageWidth/totalStrips
 
 %initialize viewing Angle and image matrix
-imArray = uint8(zeros(image_height,image_width,rgbDim,numImages));
+imArray = uint8(ones(image_height,image_width,rgbDim,numImages))*255;
 imArraySize = size(imArray);
 viewingAngleL1 = 1;
 column = 1;
@@ -52,6 +55,8 @@ for u = 1:updates
     L3L4 = data_stream(startL3L4 : endL3L4);
     L5L6 = data_stream(startL5L6 : endL5L6);
     
+    %In MCU Code:  send out start packet (32-bits each) to each strip group (1-3) here
+    
     %reset pixel index for every update
     pixel = 0;
     %iterate through each RGB pixel in each strip group
@@ -73,6 +78,7 @@ for u = 1:updates
         L3L4greenByte = L3L4(p+byte);       %get red byte of pixel
         L3L4redByte = L3L4(p+2*byte);       %get green byte of pixel
         [viewingAngle2, columnIndex2] = GetViewingAngleAndColumn(p,group,viewingAngleL1,numImages,height,column,columnLength);
+        % send out L1 pixel start/global brightness (8-bits)
         imArray(rowIndex,columnIndex2,1,viewingAngle2) = L3L4redByte;
         imArray(rowIndex,columnIndex2,2,viewingAngle2) = L3L4greenByte;
         imArray(rowIndex,columnIndex2,3,viewingAngle2) = L3L4blueByte;
@@ -85,7 +91,15 @@ for u = 1:updates
         imArray(rowIndex,columnIndex3,1,viewingAngle3) = L5L6redByte;
         imArray(rowIndex,columnIndex3,2,viewingAngle3) = L5L6greenByte;
         imArray(rowIndex,columnIndex3,3,viewingAngle3) = L5L6blueByte;
-            
+        
+        %uncomment loop to see pixel by pixel display
+%         for i=1:numImages
+%             subplot(5,4,i)
+%             imshow(imArray(:,:,:,i))
+%             title(['Image ' num2str(i) ' Reconstructed'])
+%             drawnow
+%         end
+
     end
     
     %increment column

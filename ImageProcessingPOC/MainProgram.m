@@ -43,10 +43,7 @@ fileID = fopen('datapacket.txt','a+');
 fprintf(fileID,'EOF');
 fclose(fileID);
 
-fileData = fopen('binarypacket.bin');
-uint8DataStream = fread(fileData);
-
 % read data packet, construct timing simulation
-DiscreteTimeReconstruction(uint8DataStream, height, width);
+DiscreteTimeReconstruction('binarypacket.bin', height, width);
     
 end
