@@ -50,7 +50,7 @@
 Uint16 ChunkDMA[3168];                // data array which DMA stores FRAM data
 Uint16 ChunkTMP[3168];             //data array which is used to send data out to strips, ChunkDMA will be copied into ChunkTMP
 Uint16 ChunkDMAT[3168];            //array used to test MCBSP DMA code
-char   ChunkTMPB[6336];
+//char   ChunkTMPB[6336];
 unsigned long chunk1Addr;            //address of the first third of data in FRAM
 unsigned long chunk2Addr;            //address of the first third of data in FRAM
 unsigned long chunk3Addr;            //address of the
