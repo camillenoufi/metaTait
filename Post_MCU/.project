@@ -88,6 +88,10 @@
 	</linkedResources>
 	<variableList>
 		<variable>
+			<name>INCLUDES</name>
+			<value>file:/C:/ti/controlSUITE/device_support/F2837xS/v210</value>
+		</variable>
+		<variable>
 			<name>INSTALLROOT_F2837XS</name>
 			<value>$%7BPARENT-4-PROJECT_LOC%7D</value>
 		</variable>

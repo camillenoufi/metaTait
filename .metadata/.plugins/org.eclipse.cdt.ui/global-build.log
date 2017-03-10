@@ -1,0 +1,73 @@
+
+**** Build of configuration Debug for project PostMCUCam ****
+
+/Applications/ti/ccsv7/utils/bin/gmake -k -j 3 all -O 
+Building file: /Users/camillenoufi/Google Drive/My Capstone/Git/Post_MCU/Post_MCU.c
+Invoking: C2000 Compiler
+"/Applications/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/bin/cl2000" -v28 -ml -mt --cla_support=cla1 --float_support=fpu32 --tmu_support=tmu0 --vcu_support=vcu2 --include_path="/Users/camillenoufi/Documents/TI_Projects" --include_path="/Applications/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/include" -g --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="Post_MCU.d"  "/Users/camillenoufi/Google Drive/My Capstone/Git/Post_MCU/Post_MCU.c"
+
+>> Compilation failure
+subdir_rules.mk:7: recipe for target 'Post_MCU.obj' failed
+"/Users/camillenoufi/Google Drive/My Capstone/Git/Post_MCU/Post_MCU.c", line 1: fatal error #1965: cannot open source file "F28x_Project.h"
+1 catastrophic error detected in the compilation of "/Users/camillenoufi/Google Drive/My Capstone/Git/Post_MCU/Post_MCU.c".
+Compilation terminated.
+gmake: *** [Post_MCU.obj] Error 1
+Building file: ../main.c
+Invoking: C2000 Compiler
+"/Applications/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/bin/cl2000" -v28 -ml -mt --cla_support=cla1 --float_support=fpu32 --tmu_support=tmu0 --vcu_support=vcu2 --include_path="/Users/camillenoufi/Documents/TI_Projects" --include_path="/Applications/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/include" -g --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="main.d"  "../main.c"
+Finished building: ../main.c
+ 
+gmake: Target 'all' not remade because of errors.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project PostMCUCam ****
+
+/Applications/ti/ccsv7/utils/bin/gmake -k -j 3 all -O 
+Building file: /Users/camillenoufi/Google Drive/My Capstone/Git/Post_MCU/Post_MCU.c
+Invoking: C2000 Compiler
+"/Applications/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/bin/cl2000" -v28 -ml -mt --cla_support=cla1 --float_support=fpu32 --tmu_support=tmu0 --vcu_support=vcu2 --include_path="/Users/camillenoufi/Documents/TI_Projects" --include_path="/Applications/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/include" -g --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="Post_MCU.d"  "/Users/camillenoufi/Google Drive/My Capstone/Git/Post_MCU/Post_MCU.c"
+
+>> Compilation failure
+subdir_rules.mk:7: recipe for target 'Post_MCU.obj' failed
+"/Users/camillenoufi/Google Drive/My Capstone/Git/Post_MCU/Post_MCU.c", line 2: fatal error #1965: cannot open source file "F2837xS_device.h"
+1 catastrophic error detected in the compilation of "/Users/camillenoufi/Google Drive/My Capstone/Git/Post_MCU/Post_MCU.c".
+Compilation terminated.
+gmake: *** [Post_MCU.obj] Error 1
+gmake: Target 'all' not remade because of errors.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project PostMCUCam ****
+
+/Applications/ti/ccsv7/utils/bin/gmake -k -j 3 all -O 
+Building file: ../main.c
+Invoking: C2000 Compiler
+"/Applications/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/bin/cl2000" -v28 -ml -mt --cla_support=cla1 --float_support=fpu32 --tmu_support=tmu0 --vcu_support=vcu2 --include_path="/Users/camillenoufi/Documents/TI_Projects" --include_path="/Applications/ti/v210/F2837xS_headers/include" --include_path="/Applications/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/include" -g --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="main.d"  "../main.c"
+Finished building: ../main.c
+ 
+Building file: /Users/camillenoufi/Google Drive/My Capstone/Git/Post_MCU/Post_MCU.c
+Invoking: C2000 Compiler
+"/Applications/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/bin/cl2000" -v28 -ml -mt --cla_support=cla1 --float_support=fpu32 --tmu_support=tmu0 --vcu_support=vcu2 --include_path="/Users/camillenoufi/Documents/TI_Projects" --include_path="/Applications/ti/v210/F2837xS_headers/include" --include_path="/Applications/ti/ccsv7/tools/compiler/ti-cgt-c2000_16.9.1.LTS/include" -g --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="Post_MCU.d"  "/Users/camillenoufi/Google Drive/My Capstone/Git/Post_MCU/Post_MCU.c"
+
+>> Compilation failure
+subdir_rules.mk:7: recipe for target 'Post_MCU.obj' failed
+"/Applications/ti/v210/F2837xS_headers/include/F2837xS_can.h", line 530: error #2638: The alignment of an array element is greater than the element size
+"/Applications/ti/v210/F2837xS_headers/include/F2837xS_can.h", line 533: error #2638: The alignment of an array element is greater than the element size
+"/Applications/ti/v210/F2837xS_headers/include/F2837xS_can.h", line 535: error #2638: The alignment of an array element is greater than the element size
+"/Applications/ti/v210/F2837xS_headers/include/F2837xS_can.h", line 539: error #2638: The alignment of an array element is greater than the element size
+"/Applications/ti/v210/F2837xS_headers/include/F2837xS_can.h", line 543: error #2638: The alignment of an array element is greater than the element size
+"/Applications/ti/v210/F2837xS_headers/include/F2837xS_can.h", line 546: error #2638: The alignment of an array element is greater than the element size
+"/Applications/ti/v210/F2837xS_headers/include/F2837xS_can.h", line 549: error #2638: The alignment of an array element is greater than the element size
+"/Applications/ti/v210/F2837xS_headers/include/F2837xS_can.h", line 552: error #2638: The alignment of an array element is greater than the element size
+"/Applications/ti/v210/F2837xS_headers/include/F2837xS_can.h", line 554: error #2638: The alignment of an array element is greater than the element size
+"/Applications/ti/v210/F2837xS_headers/include/F2837xS_can.h", line 561: error #2638: The alignment of an array element is greater than the element size
+"/Applications/ti/v210/F2837xS_headers/include/F2837xS_can.h", line 568: error #2638: The alignment of an array element is greater than the element size
+"/Applications/ti/v210/F2837xS_headers/include/F2837xS_can.h", line 575: error #2638: The alignment of an array element is greater than the element size
+"/Users/camillenoufi/Google Drive/My Capstone/Git/Post_MCU/Post_MCU.c", line 3: fatal error #1965: cannot open source file "F2837xS_Examples.h"
+12 errors and 1 catastrophic error detected in the compilation of "/Users/camillenoufi/Google Drive/My Capstone/Git/Post_MCU/Post_MCU.c".
+Compilation terminated.
+gmake: *** [Post_MCU.obj] Error 1
+gmake: Target 'all' not remade because of errors.
+
+**** Build Finished ****

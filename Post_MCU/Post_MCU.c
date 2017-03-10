@@ -2,7 +2,7 @@
 #include "F2837xS_device.h"
 #include "F2837xS_Examples.h"
 
-//
+// hhihih
 // Defines
 //
 
@@ -23,8 +23,8 @@
 
 //Values for LED Data Parsing
 #define StreamSize           171072     //LED data stream size in bytes
-#define ChunkSizeI            3168      // Size of a single chunk pulled from FRAM in 16 bit words
-#define ChunkSizeB            6336      // Size of a single chunk pulled from FRAM in bytes
+#define ChunkSizeI            1584      // Size of a single chunk pulled from FRAM in 16 bit words
+#define ChunkSizeB            3168      // Size of a single chunk pulled from FRAM in bytes
 
 //Values for McBSP Communication
 #define CLKGDV_VAL   1
@@ -47,37 +47,37 @@
 
 
 
-Uint16 ChunkDMA[3168];                // data array which DMA stores FRAM data
-Uint16 ChunkTMP[3168];             //data array which is used to send data out to strips, ChunkDMA will be copied into ChunkTMP
-Uint16 ChunkDMAT[3168];            //array used to test MCBSP DMA code
-//char   ChunkTMPB[6336];
+Uint16 ChunkDMA[ChunkSizeI];                // data array which DMA stores FRAM data
+Uint16 ChunkTMP[ChunkSizeB];             //data array which is used to send data out to strips, ChunkDMA will be copied into ChunkTMP
+Uint16 ChunkDMAT[ChunkSizeI];            //array used to test MCBSP DMA code
 unsigned long chunk1Addr;            //address of the first third of data in FRAM
 unsigned long chunk2Addr;            //address of the first third of data in FRAM
 unsigned long chunk3Addr;            //address of the
 
-char globalBrt= 0;                       // Global brightness value received from Base, user programmed
-Uint16 Refresh = 1000;                  //Refresh rate value sent from Base used to calculate timer interrupt value
-Uint16 stframe = 0x0000;  	// 32 0 bits signal start of each LED frame, each stframe is 16 bits, must send 2
-Uint16 startBlue =0;        //First 16 bits of an LED frame
-Uint16 greenRed;            //Second 16 bits of an LED frame
-char L1L2[264];
-char L3L4[264];
-char L5L6[264];
+uint16_t globalBrt = 0;                       // Global brightness value received from Base, user programmed
+uint16_t Refresh = 1000;                  //Refresh rate value sent from Base used to calculate timer interrupt value
+uint16_t stframe = 0x0000;  	// 32 0 bits signal start of each LED frame, each stframe is 16 bits, must send 2
+uint16_t startBlue = 0;        //First 16 bits of an LED frame
+uint16_t greenRed = 0;            //Second 16 bits of an LED frame
+uint16_t L1L2[264];
+uint16_t L3L4[264];
+uint16_t L5L6[264];
 
 
-int rgbDim = 3;		//hardcode? for now.
-int stripsPerPort = 2;
-int numPorts = 3;
-int numPosts = 3;
-int LEDupdates = 216;
-int  height = 44*2;
-int pixelStart =0;
-int DMAupdates =0;
+uint16_t rgbDim = 3;		//hardcode? for now.
+uint16_t stripsPerPort = 2;
+uint16_t numPorts = 3;
+uint16_t numPosts = 3;
+uint16_t LEDupdates = 216;
+uint16_t updatesPerChunk = 8;  //currently 8
+uint16_t  height = 44*2;
+uint16_t pixelStart =0;
+uint16_t DMAupdates =0;
 
 
-Uint16 updateLength = 44*2*3*3;  //total number of bytes sent out per update
+uint16_t updateLength = 44*3*3*2;  //total number of bytes sent out per update
 
-int u = 0;
+uint16_t u = 0;
 
 /*
 struct I2CMSG I2CRMSG={ I2C_MSGSTAT_SEND_WITHSTOP,
@@ -152,7 +152,7 @@ void switchDataChunk(int u);
 
 int main(void)
 {
-DMAupdates = StreamSize/ChunkSizeB;
+DMAupdates = StreamSize/ChunkSizeI;
 	//
 	// Initialize System Control:
 	// PLL, WatchDog, enable Peripheral Clocks
@@ -237,10 +237,12 @@ DMAupdates = StreamSize/ChunkSizeB;
 
 	       //For testing McBSP DMA writing and reading
 	       int i;
+	       int k = 0;
 	       for (i=0;i<ChunkSizeI;i++)
 	       {
-	    	   ChunkDMAT[i]=i;
+	    	   ChunkDMAT[i] = 0xFFFF;
 	    	   ChunkDMA[i]=0;
+
 	       }
 
 	       init_dma();        // 1. When using DMA, initialize DMA with
@@ -415,7 +417,7 @@ void Runtime() {
 
 	while(u<LEDupdates) {
 
-		if (u==0||(u+1) %4==0)
+		if (u==0||(u+1) % updatesPerChunk == 0)
 			// get new chunk and initiaite DMA transfer
 			 switchDataChunk(u);  // may have to include specific size of chunk
 
@@ -433,10 +435,10 @@ void switchDataChunk(int u)
 				  //mcbsp_xmit to FRAM to determine which part of FRAM to pull from
 	start_dma();  //pull chunk of data from FRAM into ChunkDMA
 	DELAY_US(30);
-	int i;
+	int i = -1;
 	for (i=0;i<ChunkSizeI;i++)
 	{
-		ChunkTMP[i]=ChunkDMA[i];
+		ChunkTMP[i]=ChunkDMA[i];        //LSB or MSB????
 
 	}
 
@@ -482,13 +484,15 @@ __interrupt void cpu_timer0_isr(void)
     //
     //
 	Uint16 i;
-		    Uint16 index = updateLength*u;
-		    Uint16 startL1L2 = index;
-			Uint16 endL1L2 = index+height*rgbDim-1;
-			Uint16 startL3L4 = index + height*rgbDim;
-			Uint16 endL3L4 = index + 2*height*rgbDim - 1;
-			Uint16 startL5L6 = index + 2*height*rgbDim;
-			Uint16 endL5L6 = index+3*height*rgbDim - 1;
+
+
+	uint16_t index = updateLength*(u%updatesPerChunk);
+	uint16_t startL1L2 = index;
+	uint16_t endL1L2 = index+height*rgbDim-1;
+	uint16_t startL3L4 = index + height*rgbDim;
+	uint16_t endL3L4 = index + 2*height*rgbDim - 1;
+	uint16_t startL5L6 = index + 2*height*rgbDim;
+	uint16_t endL5L6 = index+3*height*rgbDim - 1;
 
 
 		// extract corresponding data for LED strip pairs
@@ -510,8 +514,8 @@ __interrupt void cpu_timer0_isr(void)
 		// transmit pixel data
 		for(i=0; i<height*rgbDim; i+=rgbDim)
 		{
-			 startBlue = ( pixelStart << 8 ) | L1L2[i];    //pixel start (MSB) and blue byte (LSB)
-			 greenRed = ( L1L2[i+1] << 8 ) | L1L2[i+2];  //green byte (MSB) and red byte (LSB)
+			startBlue = ( pixelStart << 8 ) | L1L2[i];    //pixel start (MSB) and blue byte (LSB)
+			greenRed = ( L1L2[i+1] << 8 ) | L1L2[i+2];  //green byte (MSB) and red byte (LSB)
 			spi_xmita(startBlue);
 	    	spi_xmita(greenRed);
 	    	DELAY_US(3);
