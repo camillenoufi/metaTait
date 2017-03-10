@@ -1,0 +1,33 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+# Add inputs and outputs from these tool invocations to the build variables 
+CMD_SRCS += \
+../28377S_FLASH_lnk.cmd 
+
+C_SRCS += \
+/Users/camillenoufi/Google\ Drive/My\ Capstone/Git/Post_MCU/Post_MCU.c \
+../main.c 
+
+C_DEPS += \
+./Post_MCU.d \
+./main.d 
+
+OBJS += \
+./Post_MCU.obj \
+./main.obj 
+
+OBJS__QUOTED += \
+"Post_MCU.obj" \
+"main.obj" 
+
+C_DEPS__QUOTED += \
+"Post_MCU.d" \
+"main.d" 
+
+C_SRCS__QUOTED += \
+"/Users/camillenoufi/Google Drive/My Capstone/Git/Post_MCU/Post_MCU.c" \
+"../main.c" 
+
+
