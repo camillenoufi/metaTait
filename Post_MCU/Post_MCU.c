@@ -240,7 +240,7 @@ DMAupdates = StreamSize/ChunkSizeI;
 	       int k = 0;
 	       for (i=0;i<ChunkSizeI;i++)
 	       {
-	    	   ChunkDMAT[i] = 0xFFFF;
+	    	   ChunkDMAT[i] = 0x22FF;
 	    	   ChunkDMA[i]=0;
 
 	       }
